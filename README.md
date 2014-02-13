@@ -1,13 +1,19 @@
 Google Authenticator Lib for java
 =================================
 
-##Maven
+##Installation
+###Maven
 ```xml
 <dependency>
 	<groupId>hu.meza.tools</groupId>
 	<artifactId>galib</artifactId>
 	<version>1.0.0</version>
 </dependency>
+```
+
+###sbt
+```
+"hu.meza.tools" % "galib" % "1.0.0"
 ```
 
 ##Usage
