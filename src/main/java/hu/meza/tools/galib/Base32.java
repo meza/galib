@@ -38,11 +38,6 @@ package hu.meza.tools.galib;
 
 //package org.itemscript.core.util;
 
-/**
- * Base32 encoding/decoding class.
- *
- * @author Robert Kaye & Gordon Mohr
- */
 //Generated code begins here
 public final class Base32 {
 	/* lookup table used to encode() groups of 5 bits of data */
@@ -60,11 +55,6 @@ public final class Base32 {
 	private static final String errorCanonicalEnd = "non canonical bits at end of Base32 string";
 	private static final String errorInvalidChar = "invalid character in Base32 string";
 
-	/**
-	 * Decode a Base32 string into an array of binary bytes. May fail if the
-	 * parameter is a non canonical Base32 string (the only other possible
-	 * exception is that the returned array cannot be allocated in memory)
-	 */
 	static public byte[] decode(final String base32) throws IllegalArgumentException {
 		// Note that the code below detects could detect non canonical
 		// Base32 length within the loop. However canonical Base32 length
@@ -219,11 +209,6 @@ public final class Base32 {
 		return bytes;
 	}
 
-	/**
-	 * Encode an array of binary bytes into a Base32 string. Should not fail
-	 * (the only possible exception is that the returned string cannot be
-	 * allocated in memory)
-	 */
 	static public String encode(final byte[] bytes) {
 		StringBuffer base32 = new StringBuffer((bytes.length * 8 + 4) / 5);
 		int currByte, digit, i = 0;
