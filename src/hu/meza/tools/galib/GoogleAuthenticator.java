@@ -1,4 +1,7 @@
-package hu.meza.tools;
+package hu.meza.tools.galib;
+
+import hu.meza.tools.Base32;
+import hu.meza.tools.CodeGenerationException;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;

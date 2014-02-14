@@ -24,6 +24,14 @@
         <version>7</version>
     </parent>
 
+    <dependencies>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>1.1.5</version>
+        </dependency>
+    </dependencies>
+
     <developers>
         <developer>
             <name>Meza</name>

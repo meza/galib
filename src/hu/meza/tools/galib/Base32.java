@@ -1,4 +1,4 @@
-package hu.meza.tools;
+package hu.meza.tools.galib;
 
 
 /* (PD) 2001 The Bitzi Corporation
