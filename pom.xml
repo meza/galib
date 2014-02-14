@@ -4,7 +4,7 @@
     <name>Google Authenticator lib</name>
     <groupId>hu.meza.tools</groupId>
     <artifactId>galib</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3-SNAPSHOT</version>
 
     <description>A google authenticator library</description>
     <url>https://github.com/meza/galib</url>
