@@ -43,6 +43,7 @@ package hu.meza.tools.galib;
  *
  * @author Robert Kaye & Gordon Mohr
  */
+//Generated code begins here
 public final class Base32 {
 	/* lookup table used to encode() groups of 5 bits of data */
 	private static final String base32Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
@@ -273,4 +274,4 @@ public final class Base32 {
 		return base32.toString();
 	}
 }
-
+//Generated code ends here

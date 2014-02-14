@@ -1,7 +1,6 @@
 package hu.meza.tools.galib;
 
-import hu.meza.tools.Base32;
-import hu.meza.tools.CodeGenerationException;
+import org.joda.time.DateTimeUtils;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -20,6 +19,7 @@ public class GoogleAuthenticator {
 	public static final int TOKEN_LENGTH = 6;
 	public static final int POWER_BASE_FOR_TRUNCATE = 10;
 	public static final int MAXVALUE = 0x7FFFFFFF;
+	public static final int MAX_VALUE = 0xF;
 	private String secret;
 
 	public GoogleAuthenticator(String secret) {
@@ -28,7 +28,7 @@ public class GoogleAuthenticator {
 
 	public String getCode() {
 		byte[] sKey = Base32.decode(secret);
-		long time = (System.currentTimeMillis() / MILIS_TO_SECONDS) / TIME_WINDOW;
+		long time = (DateTimeUtils.currentTimeMillis() / MILIS_TO_SECONDS) / TIME_WINDOW;
 
 		byte[] data = ByteBuffer.allocate(CAPACITY).putLong(time).array();
 
@@ -38,7 +38,7 @@ public class GoogleAuthenticator {
 			mac.init(signKey);
 
 			byte[] hash = mac.doFinal(data);
-			int offset = hash[hash.length - 1] & 0xF;
+			int offset = hash[hash.length - 1] & MAX_VALUE;
 
 			int truncatedHash = hashToInt(hash, offset) & MAXVALUE;
 			int pinValue = truncatedHash % (int) Math.pow(POWER_BASE_FOR_TRUNCATE, TOKEN_LENGTH);
