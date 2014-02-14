@@ -7,13 +7,13 @@ Google Authenticator Lib for java
 <dependency>
 	<groupId>hu.meza.tools</groupId>
 	<artifactId>galib</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.2</version>
 </dependency>
 ```
 
 ###sbt
 ```
-"hu.meza.tools" % "galib" % "1.0.0"
+"hu.meza.tools" % "galib" % "1.0.2"
 ```
 
 ##Usage
