@@ -29,7 +29,7 @@ String passCode = ga.getCode("your secret key");
 ###Verify passcode
 ```java
 GoogleAuthenticator ga = new GoogleAuthenticator();
-boolean isValid = isValidCode("your secret key", "code to test for validity");
+boolean isValid = ga.isValidCode("your secret key", "code to test for validity");
 ```
 
 ##Obtaining your secret key for google logins
