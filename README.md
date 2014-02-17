@@ -1,5 +1,6 @@
 Google Authenticator Lib for java
 =================================
+[![Build Status](https://travis-ci.org/meza/galib.png?branch=verify)](https://travis-ci.org/meza/galib)
 
 Some context at [this blogpost](http://www.meza.hu/2014/02/havig-difficulties-testing-sites-with-2.html).
 
