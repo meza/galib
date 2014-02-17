@@ -1,7 +1,5 @@
 package hu.meza.tools.galib;
 
-import org.joda.time.DateTimeUtils;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.ByteArrayInputStream;
@@ -12,23 +10,29 @@ import java.nio.ByteBuffer;
 
 public class GoogleAuthenticator {
 
-
 	public static final long TIME_WINDOW = 30L;
-	public static final long MILIS_TO_SECONDS = 1000L;
 	public static final int CAPACITY = 8;
 	public static final int TOKEN_LENGTH = 6;
 	public static final int POWER_BASE_FOR_TRUNCATE = 10;
 	public static final int MAXVALUE = 0x7FFFFFFF;
 	public static final int MAX_VALUE = 0xF;
-	private String secret;
+	private Clock clock;
 
-	public GoogleAuthenticator(String secret) {
-		this.secret = secret;
+	public GoogleAuthenticator() {
+		clock = new SystemClock();
 	}
 
-	public String getCode() {
+	public GoogleAuthenticator(Clock clock) {
+		this.clock = clock;
+	}
+
+
+	public String getCode(String secret) {
+		return getCode(secret, getTimeWindow(clock.getEpochTime()));
+	}
+
+	public String getCode(String secret, long time) {
 		byte[] sKey = Base32.decode(secret);
-		long time = (DateTimeUtils.currentTimeMillis() / MILIS_TO_SECONDS) / TIME_WINDOW;
 
 		byte[] data = ByteBuffer.allocate(CAPACITY).putLong(time).array();
 
@@ -49,7 +53,24 @@ public class GoogleAuthenticator {
 		}
 	}
 
-	public static String qRBarcodeURL(String user, String host, String secret) {
+	public boolean isValidCode(String secret, String codeToVerify) {
+		return isValidCode(secret, codeToVerify, 1);
+	}
+
+	public boolean isValidCode(String secret, String codeToVerify, int numberOfTimeWindows) {
+		long currentTime = getTimeWindow(clock.getEpochTime());
+
+		for (int i = numberOfTimeWindows; i >= 0; i--) {
+			long time = currentTime - i;
+			String validCode = getCode(secret, time);
+			if (validCode.equals(codeToVerify)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public String qRBarcodeURL(String user, String host, String secret) {
 		String format =
 			"https://www.google.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=otpauth://totp/%s@%s" +
 			"%%3Fsecret" +
@@ -57,6 +78,9 @@ public class GoogleAuthenticator {
 		return String.format(format, user, host, secret);
 	}
 
+	private long getTimeWindow(long baseTime) {
+		return baseTime / TIME_WINDOW;
+	}
 
 	private String padOutput(int value) {
 		String result = Integer.toString(value);
