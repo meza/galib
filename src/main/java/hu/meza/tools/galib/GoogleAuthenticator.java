@@ -1,7 +1,5 @@
 package hu.meza.tools.galib;
 
-import org.joda.time.DateTimeUtils;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.ByteArrayInputStream;
@@ -13,16 +11,24 @@ import java.nio.ByteBuffer;
 public class GoogleAuthenticator {
 
 	public static final long TIME_WINDOW = 30L;
-	public static final long MILIS_TO_SECONDS = 1000L;
 	public static final int CAPACITY = 8;
 	public static final int TOKEN_LENGTH = 6;
 	public static final int POWER_BASE_FOR_TRUNCATE = 10;
 	public static final int MAXVALUE = 0x7FFFFFFF;
 	public static final int MAX_VALUE = 0xF;
+	private Clock clock;
+
+	public GoogleAuthenticator() {
+		clock = new SystemClock();
+	}
+
+	public GoogleAuthenticator(Clock clock) {
+		this.clock = clock;
+	}
 
 
 	public String getCode(String secret) {
-		return getCode(secret, getTimeWindow(DateTimeUtils.currentTimeMillis()));
+		return getCode(secret, getTimeWindow(clock.getEpochTime()));
 	}
 
 	public String getCode(String secret, long time) {
@@ -52,9 +58,9 @@ public class GoogleAuthenticator {
 	}
 
 	public boolean isValidCode(String secret, String codeToVerify, int numberOfTimeWindows) {
-		long currentTime = getTimeWindow(System.currentTimeMillis());
+		long currentTime = getTimeWindow(clock.getEpochTime());
 
-		for (int i = numberOfTimeWindows; i > 0; i--) {
+		for (int i = numberOfTimeWindows; i >= 0; i--) {
 			long time = currentTime - i;
 			String validCode = getCode(secret, time);
 			if (validCode.equals(codeToVerify)) {
@@ -73,7 +79,7 @@ public class GoogleAuthenticator {
 	}
 
 	private long getTimeWindow(long baseTime) {
-		return (baseTime / MILIS_TO_SECONDS) / TIME_WINDOW;
+		return baseTime / TIME_WINDOW;
 	}
 
 	private String padOutput(int value) {
