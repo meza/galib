@@ -1,8 +1,6 @@
 Google Authenticator Lib for java
 =================================
 
-[![Build Status](https://travis-ci.org/meza/galib.png?branch=verify)](https://travis-ci.org/meza/galib)
-
 ##Installation
 ###Maven
 ```xml
