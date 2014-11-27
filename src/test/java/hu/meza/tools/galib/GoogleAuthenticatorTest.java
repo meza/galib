@@ -70,7 +70,8 @@ public class GoogleAuthenticatorTest {
 		final String secret = UUID.randomUUID().toString();
 
 		String expected = String
-			.format("https://www.google.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=otpauth://totp/%s@%s" +
+			.format("https://chart.googleapis.com/chart?chs=200x200&chld=M%%7C0&cht" +
+					"=qr&chl=otpauth://totp/%s@%s" +
 					"%%3Fsecret" +
 					"%%3D%s", user, host, secret);
 
@@ -78,4 +79,22 @@ public class GoogleAuthenticatorTest {
 
 		Assert.assertEquals("did not generate the correct barcode url", expected, actual);
 	}
+
+	@Test
+	public void testQRBarcodeURLWithIssuer() {
+		final String user = UUID.randomUUID().toString();
+		final String host = UUID.randomUUID().toString();
+		final String secret = UUID.randomUUID().toString();
+		final String issuer = UUID.randomUUID().toString();
+
+		String expected = String
+		.format("https://chart.googleapis.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=" +
+				"otpauth://totp/%s%%3A%s@%s%%3Fsecret" +
+				"%%3D%s%%26issuer%%3D%s", issuer, user, host, secret, issuer);
+
+		String actual = ga.qRBarcodeURL(user, host, secret, issuer);
+
+		Assert.assertEquals("did not generate the correct barcode url", expected, actual);
+	}
+
 }

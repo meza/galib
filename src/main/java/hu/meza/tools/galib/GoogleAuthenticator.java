@@ -10,6 +10,9 @@ import java.nio.ByteBuffer;
 
 public class GoogleAuthenticator {
 
+	public static final String CHART_BASE_URL =
+			"https://chart.googleapis.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=otpauth://totp/";
+
 	public static final long TIME_WINDOW = 30L;
 	public static final int CAPACITY = 8;
 	public static final int TOKEN_LENGTH = 6;
@@ -70,11 +73,13 @@ public class GoogleAuthenticator {
 		return false;
 	}
 
+	public String qRBarcodeURL(String user, String host, String secret, String issuer) {
+		String format = CHART_BASE_URL + "%s%%3A%s@%s%%3Fsecret%%3D%s%%26issuer%%3D%s";
+		return String.format(format, issuer, user, host, secret, issuer);
+	}
+
 	public String qRBarcodeURL(String user, String host, String secret) {
-		String format =
-			"https://www.google.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=otpauth://totp/%s@%s" +
-			"%%3Fsecret" +
-			"%%3D%s";
+		String format = CHART_BASE_URL + "%s@%s%%3Fsecret%%3D%s";
 		return String.format(format, user, host, secret);
 	}
 
@@ -101,5 +106,3 @@ public class GoogleAuthenticator {
 		return val;
 	}
 }
-
-
