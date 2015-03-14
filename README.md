@@ -10,13 +10,13 @@ Some context at [this blogpost](http://www.meza.hu/2014/02/havig-difficulties-te
 <dependency>
 	<groupId>hu.meza.tools</groupId>
 	<artifactId>galib</artifactId>
-	<version>1.1.0</version>
+	<version>1.2</version>
 </dependency>
 ```
 
 ###sbt
 ```
-"hu.meza.tools" % "galib" % "1.1.0"
+"hu.meza.tools" % "galib" % "1.2"
 ```
 
 ##Usage
